@@ -1,0 +1,3 @@
+<?php
+
+return ['status' => ['draft' => 'Taslak', 'counting' => 'Sayım bekliyor', 'review' => 'Kontrol gerekiyor', 'pending' => 'Onay bekliyor', 'approved' => 'Onaylandı', 'closed' => 'Kapatıldı'], 'cash' => ['waiting' => 'Sayım bekliyor', 'balanced' => 'Dengeli', 'short' => 'Eksik', 'over' => 'Fazla'], 'fields' => ['sales' => 'Toplam satış', 'credit' => 'Veresiye', 'fast' => 'FAST', 'expense' => 'Gider', 'points' => 'Puan', 'pos_kuveyt' => 'Kuveyt POS', 'pos_garanti' => 'Garanti POS', 'pos_ziraat' => 'Ziraat POS', 'pos_other' => 'Diğer POS', 'counted_cash' => 'Sayılan nakit', 'coins' => 'Bozuk para', 'pos_total' => 'Toplam POS', 'expected_cash' => 'Beklenen nakit', 'difference' => 'Kasa farkı']];

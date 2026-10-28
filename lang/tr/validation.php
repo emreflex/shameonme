@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'required' => ':attribute alanı zorunludur.', 'email' => ':attribute geçerli e-posta olmalıdır.', 'unique' => ':attribute zaten kullanılıyor.', 'exists' => 'Seçilen :attribute geçersiz.', 'in' => 'Seçilen :attribute geçersiz.', 'integer' => ':attribute tamsayı olmalıdır.', 'boolean' => ':attribute geçerli bir seçim olmalıdır.', 'string' => ':attribute metin olmalıdır.', 'regex' => ':attribute geçersiz biçimde. Tutarları en fazla iki ondalıkla, nokta kullanarak girin.', 'date_format' => ':attribute :format biçiminde olmalıdır.', 'after_or_equal' => ':attribute :date veya sonrası olmalıdır.', 'accepted' => ':attribute onaylanmalıdır.', 'file' => ':attribute geçerli dosya olmalıdır.', 'mimes' => ':attribute şu türlerden olmalıdır: :values.', 'current_password' => 'Şifreniz doğrulanamadı.',
+    'min' => ['string' => ':attribute en az :min karakter olmalıdır.', 'numeric' => ':attribute en az :min olmalıdır.'],
+    'max' => ['string' => ':attribute en fazla :max karakter olmalıdır.', 'file' => ':attribute en fazla :max KB olabilir.', 'numeric' => ':attribute en fazla :max olabilir.'],
+    'password' => ['letters' => ':attribute en az bir harf içermelidir.', 'numbers' => ':attribute en az bir rakam içermelidir.', 'uncompromised' => 'Lütfen farklı bir :attribute seçin.'],
+    'attributes' => ['email' => 'E-posta', 'password' => 'Şifre', 'name' => 'Ad', 'department_id' => 'Departman', 'employee_id' => 'Personel', 'shift_type_id' => 'Vardiya türü', 'date' => 'Tarih', 'sales' => 'Satış', 'counted_cash' => 'Sayılan nakit', 'coins' => 'Bozuk para', 'reason' => 'Gerekçe', 'duplicate_reason' => 'Mükerrer kayıt gerekçesi', 'confirm' => 'Aktarım onayı', 'file' => 'Excel dosyası', 'from' => 'Başlangıç tarihi', 'to' => 'Bitiş tarihi', 'status' => 'Durum', 'business_name' => 'İşletme adı', 'version' => 'Kayıt sürümü'],
+];

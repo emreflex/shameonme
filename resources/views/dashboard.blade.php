@@ -1,0 +1,19 @@
+@extends('layouts.app')
+@section('title','Genel bakış')
+@section('content')
+@php($posChart=collect(['Kuveyt'=>'pos_kuveyt','Garanti'=>'pos_garanti','Ziraat'=>'pos_ziraat','Diğer'=>'pos_other'])->map(fn($key)=>\App\Services\Money::cents($summary['totals'][$key])))
+@php($departmentChart=['Petrol'=>$summary['departments']['petrol'],'Market'=>$summary['departments']['market']])
+<div class="page-heading"><div><span class="eyebrow">İŞLETMENİZİN FİNANSAL GÖRÜNÜMÜ</span><h1>Genel bakış<span class="heading-dot">.</span></h1><p>Vardiyalar, tahsilatlar ve kasa kontrolü tek bir yerde.</p></div><a class="btn primary" href="{{ route('shifts.create') }}"><i data-lucide="plus"></i>Yeni vardiya</a></div>
+@include('partials.filters')
+<div class="section-line"><span><span class="live-dot"></span> Dönem özeti</span><small>{{ $range[0] }} — {{ $range[1] }}</small></div>
+<div class="kpi-grid">
+@foreach([['Petrol toplam satış',\App\Services\Money::decimal($summary['departments']['petrol']),'fuel','blue','Petrol İstasyonu'],['Market toplam satış',\App\Services\Money::decimal($summary['departments']['market']),'shopping-basket','green','Market'],['Genel satış',$summary['totals']['sales'],'chart-no-axes-combined','teal','İki departmanın satış toplamı'],['Toplam kasa farkı',$summary['totals']['difference'],'wallet','amber','Yalnızca sayımı tamamlananlar']] as [$label,$value,$icon,$color,$note])
+<div class="kpi {{ $color }}"><div class="kpi-top"><span>{{ $label }}</span><div class="kpi-icon"><i data-lucide="{{ $icon }}"></i></div></div><strong>{{ \App\Services\Money::format($value) }}</strong><small>{{ $note }}</small></div>@endforeach
+</div>
+<div class="mini-metrics">@foreach(['pos_total'=>'Toplam POS','fast'=>'Toplam FAST','expense'=>'Toplam gider'] as $key=>$label)<div><span>{{ $label }}</span><strong>{{ \App\Services\Money::format($summary['totals'][$key]) }}</strong></div>@endforeach<div><span>Toplam vardiya</span><strong>{{ $summary['count'] }} <small>kayıt</small></strong></div></div>
+<div class="charts-grid"><section class="panel"><div class="panel-heading"><div><h2>Satış trendi</h2><p>Günlük gerçekleşen satışlar</p></div><span class="badge neutral">TL</span></div><div class="chart-wrap"><canvas data-chart="line" data-values='@json($summary["trend"])' aria-label="Günlük satış trendi"></canvas></div></section><section class="panel"><div class="panel-heading"><div><h2>Departman dağılımı</h2><p>Petrol ve market satış karşılaştırması</p></div><i data-lucide="chart-pie" class="muted"></i></div><div class="chart-wrap"><canvas data-chart="doughnut" data-values='@json($departmentChart)'></canvas></div></section></div>
+<div class="status-grid">@foreach([['short','Eksik kasa','circle-alert'],['over','Fazla kasa','circle-plus'],['waiting','Sayım bekleyen','clock-3'],['pending','Onay bekleyen','shield-check']] as [$key,$label,$icon])<a href="{{ route('shifts.index',[$key==='pending'?'status':'cash_status'=>$key]) }}" class="status-card"><span class="status-icon cash-{{ $key }}"><i data-lucide="{{ $icon }}"></i></span><div><strong>{{ $key==='pending'?$summary['pending']:$summary['cash'][$key] }}</strong><span>{{ $label }}</span></div><i data-lucide="arrow-up-right" class="muted"></i></a>@endforeach</div>
+<details class="panel p-6 mb-6"><summary class="text-link cursor-pointer">Ayrıntılı analizleri göster · Aylık, POS, gider, personel ve kasa</summary><div class="mt-5">@include('partials.analysis')</div></details>
+<section class="panel"><div class="panel-heading"><div><h2>Son vardiya kayıtları</h2><p>Seçili dönemdeki en son işlemler</p></div><a href="{{ route('shifts.index') }}" class="text-link">Tüm kayıtlar <i data-lucide="arrow-right"></i></a></div>@include('partials.table',['shifts'=>$shifts])</section>
+<div class="info-note"><i data-lucide="info"></i>Satış, tahsilat ve kasa farkı ayrı finansal göstergelerdir. Alış maliyetleri bulunmadığından net kâr hesaplanmaz.</div>
+@endsection

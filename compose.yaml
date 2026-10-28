@@ -1,0 +1,35 @@
+services:
+  app:
+    image: istasyon-php
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    user: "1000:1000"
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      COMPOSER_HOME: /app/storage/framework/cache/composer
+    command: php artisan serve --host=0.0.0.0 --port=8000 --no-reload
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:?Set DB_DATABASE in .env}
+      MYSQL_USER: ${DB_USERNAME:?Set DB_USERNAME in .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost --silent"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+volumes:
+  mysql_data:
